@@ -1,30 +1,30 @@
 import { useState } from "react";
-import burgerAloo from "@/assets/burger-aloo.jpg";
-import burgerVeggie from "@/assets/burger-veggie.jpg";
-import burgerPeriVeg from "@/assets/burger-peri-veg.jpg";
-import burgerCrispyChicken from "@/assets/burger-crispy-chicken.jpg";
-import burgerSpicyChicken from "@/assets/burger-spicy-chicken.jpg";
-import burgerCheesyChicken from "@/assets/burger-cheesy-chicken.jpg";
-import siderNuggets from "@/assets/sider-nuggets.jpg";
-import siderVeggieFingers from "@/assets/sider-veggie-fingers.jpg";
-import siderMozzarella from "@/assets/sider-mozzarella.jpg";
-import siderCheeseBalls from "@/assets/sider-cheese-balls.jpg";
-import friesSalted from "@/assets/fries-salted.jpg";
-import friesPeri from "@/assets/fries-peri.jpg";
-import friesCheesy from "@/assets/fries-cheesy.jpg";
-import friesPeriCheesy from "@/assets/fries-peri-cheesy.jpg";
-import friesVegLoaded from "@/assets/fries-veg-loaded.jpg";
-import extraDip from "@/assets/extra-dip.jpg";
-import coolerLemonade from "@/assets/cooler-lemonade.jpg";
-import coolerMojito from "@/assets/cooler-mojito.jpg";
-import coolerBlueMojito from "@/assets/cooler-blue-mojito.jpg";
-import coolerKalaKhatta from "@/assets/cooler-kala-khatta.jpg";
-import coolerKiwiOrange from "@/assets/cooler-kiwi-orange.jpg";
-import brewColdCoffee from "@/assets/brew-cold-coffee.jpg";
-import brewCoffeeIcecream from "@/assets/brew-coffee-icecream.jpg";
-import brewChocolate from "@/assets/brew-chocolate.jpg";
-import brewOreo from "@/assets/brew-oreo.jpg";
-import brewStrawberry from "@/assets/brew-strawberry.jpg";
+import burgerAloo from "@/assets/menu/burger-aloo.jpg";
+import burgerVeggie from "@/assets/menu/burger-veggie.jpg";
+import burgerPeriVeg from "@/assets/menu/burger-peri-veg.jpg";
+import burgerCrispyChicken from "@/assets/menu/burger-crispy-chicken.jpg";
+import burgerSpicyChicken from "@/assets/menu/burger-spicy-chicken.jpg";
+import burgerCheesyChicken from "@/assets/menu/burger-cheesy-chicken.jpg";
+import siderNuggets from "@/assets/menu/sider-nuggets.jpg";
+import siderVeggieFingers from "@/assets/menu/sider-veggie-fingers.jpg";
+import siderMozzarella from "@/assets/menu/sider-mozzarella.jpg";
+import siderCheeseBalls from "@/assets/menu/sider-cheese-balls.jpg";
+import friesSalted from "@/assets/menu/fries-salted.jpg";
+import friesPeri from "@/assets/menu/fries-peri.jpg";
+import friesCheesy from "@/assets/menu/fries-cheesy.jpg";
+import friesPeriCheesy from "@/assets/menu/fries-peri-cheesy.jpg";
+import friesVegLoaded from "@/assets/menu/fries-veg-loaded.jpg";
+import extraDip from "@/assets/menu/extra-dip.jpg";
+import coolerLemonade from "@/assets/menu/cooler-lemonade.jpg";
+import coolerMojito from "@/assets/menu/cooler-mojito.jpg";
+import coolerBlueMojito from "@/assets/menu/cooler-blue-mojito.jpg";
+import coolerKalaKhatta from "@/assets/menu/cooler-kala-khatta.jpg";
+import coolerKiwiOrange from "@/assets/menu/cooler-kiwi-orange.jpg";
+import brewColdCoffee from "@/assets/menu/brew-cold-coffee.jpg";
+import brewCoffeeIcecream from "@/assets/menu/brew-coffee-icecream.jpg";
+import brewChocolate from "@/assets/menu/brew-chocolate.jpg";
+import brewOreo from "@/assets/menu/brew-oreo.jpg";
+import brewStrawberry from "@/assets/menu/brew-strawberry.jpg";
 
 type Category = "Burgers" | "Siders" | "Fries" | "Coolers" | "Cold Brews";
 
@@ -79,6 +79,7 @@ const categories = ["All", "Burgers", "Siders", "Fries", "Coolers", "Cold Brews"
 
 export function Menu() {
   const [active, setActive] = useState<(typeof categories)[number]>("All");
+  const [expandedItem, setExpandedItem] = useState<string | null>(null);
   const filtered = active === "All" ? items : items.filter((i) => i.category === active);
 
   return (
@@ -111,7 +112,8 @@ export function Menu() {
           {filtered.map((item) => (
             <article
               key={item.name}
-              className="group relative rounded-xl overflow-hidden glass hover:shadow-neon-cyan transition-all duration-500 hover:-translate-y-1 flex flex-col"
+              onClick={() => setExpandedItem(expandedItem === item.name ? null : item.name)}
+              className="group relative rounded-xl overflow-hidden glass hover:shadow-neon-cyan transition-all duration-500 hover:-translate-y-1 flex flex-col cursor-pointer"
             >
               <div className="relative aspect-square overflow-hidden">
                 <img
@@ -120,21 +122,28 @@ export function Menu() {
                   width={1024}
                   height={768}
                   loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  className={`w-full h-full object-cover transition-all duration-700 ${expandedItem === item.name ? 'scale-110 blur-[2px] brightness-75' : 'group-hover:scale-110'}`}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+                <div className={`absolute inset-0 transition-all duration-300 ${expandedItem === item.name ? 'bg-background/80' : 'bg-gradient-to-t from-background via-background/30 to-transparent'}`} />
                 {item.popular && (
-                  <span className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider bg-accent text-accent-foreground font-semibold shadow-neon-orange">
+                  <span className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider bg-accent text-accent-foreground font-semibold shadow-neon-orange z-10">
                     Popular
                   </span>
                 )}
+                <div className={`absolute inset-0 p-4 sm:p-5 flex flex-col items-center justify-center text-center transition-all duration-500 z-10 ${expandedItem === item.name ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95 pointer-events-none'}`}>
+                  <p className="text-sm sm:text-base font-medium text-foreground leading-relaxed drop-shadow-md">
+                    {item.desc}
+                  </p>
+                </div>
               </div>
-              <div className="p-3 sm:p-4 flex-1 flex flex-col">
+              <div className="p-3 sm:p-4 flex-1 flex flex-col relative z-20 bg-background/40 backdrop-blur-sm">
                 <div className="flex items-baseline justify-between gap-2 mb-1">
                   <h3 className="font-display text-sm sm:text-base font-bold leading-tight">{item.name}</h3>
                   <span className="font-display text-sm sm:text-base neon-cyan whitespace-nowrap">{item.price}</span>
                 </div>
-                <p className="hidden sm:block text-xs text-muted-foreground leading-snug line-clamp-2">{item.desc}</p>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mt-auto pt-2 opacity-60 group-hover:opacity-100 transition-opacity">
+                  {expandedItem === item.name ? 'Close info' : 'Tap for info'}
+                </p>
               </div>
             </article>
           ))}
