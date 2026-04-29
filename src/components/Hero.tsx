@@ -17,7 +17,7 @@ export function Hero() {
 
       <div className="relative z-10 container mx-auto px-6 text-center">
         <p className="text-sm md:text-base uppercase tracking-[0.4em] neon-cyan animate-fade-in mb-6">
-          Nagaon · Uran
+          Pirwad · Uran
         </p>
         <h1 className="font-display font-black text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.95] animate-fade-up">
           Escape the
