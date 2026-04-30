@@ -37,7 +37,7 @@ export function Location() {
               {
                 icon: Phone,
                 title: "Reach Us",
-                lines: ["+91 99673 13509", "@ohhhbunkerzzz on Instagram"],
+                lines: ["+91 98679 35000 ", "@bunkerzzz on Instagram"],
               },
             ].map((c) => (
               <div
